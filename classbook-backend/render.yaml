@@ -3,6 +3,7 @@ services:
     name: classbook-backend
     env: node
     plan: free
+    rootDir: .  # Or your subfolder name if needed
     buildCommand: npm install && npm run build && npx prisma generate
     startCommand: node dist/server.js
     envVars:
@@ -14,9 +15,5 @@ services:
         generateValue: true
       - key: JWT_REFRESH_SECRET
         generateValue: true
-
-databases:
-  - name: classbook-db
-    plan: free
-    databaseName: classbook_db
-    user: classbook_user
+      - key: NODE_ENV
+        value: production
