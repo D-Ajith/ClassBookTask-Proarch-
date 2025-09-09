@@ -16,7 +16,7 @@ const app = express();
 app.use(helmet());
 const allowedOrigins = [
   'http://localhost:5173', 
-  'https://your-frontend-domain.com'
+  'https://class-book-task-proarch.vercel.app/'
 ];
 
 app.use(cors({
