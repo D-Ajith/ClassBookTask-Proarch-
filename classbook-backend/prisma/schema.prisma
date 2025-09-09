@@ -1,47 +1,37 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-// Your existing models remain the same...
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
+  id        String    @id @default(cuid())
+  email     String    @unique
   password  String
-  role      Role     @default(USER)
+  role      Role      @default(USER)
   bookings  Booking[]
   auditLogs AuditLog[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@map("users")
 }
 
 model Class {
-  id          String   @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
   description String
   sessions    Session[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   @@map("classes")
 }
 
 model Session {
-  id        String   @id @default(cuid())
+  id        String    @id @default(cuid())
   classId   String
-  class     Class    @relation(fields: [classId], references: [id], onDelete: Cascade)
+  class     Class     @relation(fields: [classId], references: [id], onDelete: Cascade)
   date      DateTime
   capacity  Int
   bookings  Booking[]
   auditLogs AuditLog[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 
   @@map("sessions")
 }
@@ -70,9 +60,4 @@ model AuditLog {
   createdAt DateTime @default(now())
 
   @@map("audit_logs")
-}
-
-enum Role {
-  USER
-  ADMIN
 }
