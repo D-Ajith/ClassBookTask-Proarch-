@@ -10,7 +10,7 @@ const jwt_1 = require("../utils/jwt");
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const register = async (req, res) => {
     try {
-        const { email, password, role } = req.body; // Add role to destructuring
+        const { email, password, role } = req.body;
         // Check if user already exists
         const existingUser = await prisma_1.default.user.findUnique({
             where: { email },
@@ -25,11 +25,15 @@ const register = async (req, res) => {
             data: {
                 email,
                 password: hashedPassword,
-                role: role || 'USER', // Use provided role or default to USER
+                role: role || 'USER',
             },
         });
         // Generate tokens
-        const accessToken = (0, jwt_1.generateAccessToken)({ id: user.id, email: user.email, role: user.role });
+        const accessToken = (0, jwt_1.generateAccessToken)({
+            id: user.id,
+            email: user.email,
+            role: user.role
+        });
         const refreshToken = (0, jwt_1.generateRefreshToken)({ id: user.id });
         res.status(201).json({
             message: 'User created successfully',
@@ -60,7 +64,11 @@ const login = async (req, res) => {
             return res.status(400).json({ error: 'Invalid credentials' });
         }
         // Generate tokens
-        const accessToken = (0, jwt_1.generateAccessToken)({ id: user.id, email: user.email, role: user.role });
+        const accessToken = (0, jwt_1.generateAccessToken)({
+            id: user.id,
+            email: user.email,
+            role: user.role
+        });
         const refreshToken = (0, jwt_1.generateRefreshToken)({ id: user.id });
         res.json({
             message: 'Login successful',
@@ -81,6 +89,9 @@ const refreshToken = async (req, res) => {
         if (!refreshToken) {
             return res.status(400).json({ error: 'Refresh token is required' });
         }
+        if (!process.env.JWT_REFRESH_SECRET) {
+            return res.status(500).json({ error: 'Server configuration error' });
+        }
         const decoded = jsonwebtoken_1.default.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
         const user = await prisma_1.default.user.findUnique({
             where: { id: decoded.id },
@@ -89,7 +100,11 @@ const refreshToken = async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-        const newAccessToken = (0, jwt_1.generateAccessToken)({ id: user.id, email: user.email, role: user.role });
+        const newAccessToken = (0, jwt_1.generateAccessToken)({
+            id: user.id,
+            email: user.email,
+            role: user.role
+        });
         res.json({
             accessToken: newAccessToken,
         });
