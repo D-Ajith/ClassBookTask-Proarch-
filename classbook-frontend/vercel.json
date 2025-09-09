@@ -5,7 +5,7 @@
       "src": "classbook-frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "classbook-frontend/dist",
+        "distDir": "dist",
         "installCommand": "cd classbook-frontend && npm install",
         "buildCommand": "cd classbook-frontend && npm run build"
       }
@@ -14,7 +14,7 @@
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "classbook-frontend/index.html"
+      "dest": "/index.html"
     }
   ]
 }
