@@ -1,4 +1,8 @@
 import app from './app';
+import { validateEnv } from './utils/env';
+
+// Validate environment variables
+validateEnv();
 
 const PORT = process.env.PORT || 3001;
 

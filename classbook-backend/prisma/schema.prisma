@@ -1,48 +1,46 @@
-// prisma/schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL") // Set this in Render dashboard
+  url      = env("DATABASE_URL")
 }
 
 model User {
-  id        String    @id @default(cuid())
-  email     String    @unique
+  id        String     @id @default(cuid())
+  email     String     @unique
   password  String
-  role      Role      @default(USER)
-  bookings  Booking[]
+  role      Role       @default(USER)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   auditLogs AuditLog[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  bookings  Booking[]
 
-  @@map("users") // maps Prisma model User -> table "users"
+  @@map("users")
 }
 
 model Class {
   id          String    @id @default(cuid())
   name        String
   description String
-  sessions    Session[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
+  sessions    Session[]
 
   @@map("classes")
 }
 
 model Session {
-  id        String    @id @default(cuid())
+  id        String     @id @default(cuid())
   classId   String
-  class     Class     @relation(fields: [classId], references: [id], onDelete: Cascade)
   date      DateTime
   capacity  Int
-  bookings  Booking[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   auditLogs AuditLog[]
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  bookings  Booking[]
+  class     Class      @relation(fields: [classId], references: [id], onDelete: Cascade)
 
   @@map("sessions")
 }
@@ -50,11 +48,11 @@ model Session {
 model Booking {
   id        String   @id @default(cuid())
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   sessionId String
-  session   Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  session   Session  @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, sessionId])
   @@map("bookings")
@@ -64,11 +62,11 @@ model AuditLog {
   id        String   @id @default(cuid())
   action    String
   userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   sessionId String?
-  session   Session? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
   details   String?
   createdAt DateTime @default(now())
+  session   Session? @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("audit_logs")
 }
