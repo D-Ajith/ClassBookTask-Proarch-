@@ -171,16 +171,16 @@ import adminRoutes from './routes/admin';
 
 const app = express();
 
-// Security headers
+// ✅ Security headers
 app.use(helmet());
 
-// Allowed origins
+// ✅ Allowed origins
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://class-book-task-proarch.vercel.app',
+  'https://class-book-task-proarch.vercel.app', // your Vercel frontend URL
 ];
 
-// CORS
+// ✅ CORS middleware with proper typing
 app.use(
   cors({
     origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
@@ -197,40 +197,37 @@ app.use(
   })
 );
 
-// Handle OPTIONS preflight
-app.options('*', cors());
-
-// Logging
+// ✅ Logging
 app.use(morgan('combined'));
 
-// JSON parsing
+// ✅ JSON parsing
 app.use(express.json());
 
-// Rate limiting
+// ✅ Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 min
+  windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100,
 });
 app.use(limiter);
 
-// Routes
+// ✅ Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/classes', classRoutes);
 app.use('/api/sessions', sessionRoutes);
 app.use('/api/bookings', bookingRoutes);
 app.use('/api/admin', adminRoutes);
 
-// Health check
+// ✅ Health check
 app.get('/health', (req, res) => {
   res.status(200).json({ message: 'Server is running' });
 });
 
-// 404 handler
+// ✅ 404 handler
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
 
-// Error handler
+// ✅ Error handler
 app.use(
   (err: unknown, req: express.Request, res: express.Response, next: express.NextFunction) => {
     console.error('🔥 Server Error:', err);
