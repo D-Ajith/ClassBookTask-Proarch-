@@ -1,3 +1,14 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL") // Set this in Render dashboard
+}
+
 model User {
   id        String    @id @default(cuid())
   email     String    @unique
@@ -8,7 +19,7 @@ model User {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  @@map("users")
+  @@map("users") // maps Prisma model User -> table "users"
 }
 
 model Class {
@@ -60,4 +71,9 @@ model AuditLog {
   createdAt DateTime @default(now())
 
   @@map("audit_logs")
+}
+
+enum Role {
+  USER
+  ADMIN
 }
