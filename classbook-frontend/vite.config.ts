@@ -6,9 +6,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
-    assetsDir: 'assets',
   },
-  // Remove the entire server section or keep just the port
   server: {
     port: 5173
   }
