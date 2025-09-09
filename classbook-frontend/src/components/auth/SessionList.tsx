@@ -36,8 +36,8 @@ const SessionList: React.FC = () => {
       {sessions?.map((session) => {
         // ✅ Check if current user is already enrolled
         const alreadyEnrolled = session.bookings?.some(
-          (b: any) => b.userId === user?.id
-        );
+  (b: { userId: string }) => b.userId === user?.id
+);
 
         return (
           <div
