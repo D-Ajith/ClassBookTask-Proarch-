@@ -6,15 +6,10 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     sourcemap: false,
-    assetsDir: 'assets', // Ensure assets go to assets folder
+    assetsDir: 'assets',
   },
+  // Remove the entire server section or keep just the port
   server: {
-    port: 5173,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:3001',
-        changeOrigin: true
-      }
-    }
+    port: 5173
   }
 })

@@ -5,9 +5,7 @@
       "src": "classbook-frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist",
-        "installCommand": "cd classbook-frontend && npm install",
-        "buildCommand": "cd classbook-frontend && npm run build"
+        "distDir": "dist"
       }
     }
   ],
