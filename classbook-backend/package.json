@@ -7,7 +7,8 @@
     "start": "node dist/server.js",
     "prisma:generate": "prisma generate",
     "prisma:migrate": "prisma migrate deploy",
-    "render-build": "npm run build && npx prisma generate"
+    "render-build": "npm run build && npx prisma generate",
+     "postinstall": "prisma generate"
   },
   "dependencies": {
     "@fastify/cors": "^11.1.0",
