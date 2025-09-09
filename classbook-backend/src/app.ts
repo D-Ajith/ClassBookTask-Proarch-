@@ -82,18 +82,21 @@ import adminRoutes from './routes/admin';
 
 const app = express();
 
-// Middleware
+// Security headers
 app.use(helmet());
 
-// CORS: allow localhost and Vercel frontend
+// Allowed origins
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://class-book-task-proarch.vercel.app'
+  'https://class-book-task-proarch.vercel.app',
 ];
 
-app.use(cors({
-  origin: function(origin, callback) {
-    // allow requests with no origin (like Postman or server-to-server)
+// ✅ Use inferred type instead of `CorsOptions`
+const corsOptions: Parameters<typeof cors>[0] = {
+  origin: (
+    origin: string | undefined,
+    callback: (err: Error | null, allow?: boolean) => void
+  ) => {
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
@@ -103,19 +106,21 @@ app.use(cors({
   },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
+  allowedHeaders: ['Content-Type', 'Authorization'],
+};
+
+app.use(cors(corsOptions));
 
 // Logging
 app.use(morgan('combined'));
 
-// Parse JSON
+// JSON parsing
 app.use(express.json());
 
 // Rate limiting
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per window
+  windowMs: 15 * 60 * 1000, // 15 min
+  max: 100,
 });
 app.use(limiter);
 
@@ -137,9 +142,16 @@ app.use((req, res) => {
 });
 
 // Error handler
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Something went wrong!' });
-});
+app.use(
+  (
+    err: unknown,
+    req: express.Request,
+    res: express.Response,
+    next: express.NextFunction
+  ) => {
+    console.error(err);
+    res.status(500).json({ error: 'Something went wrong!' });
+  }
+);
 
 export default app;
