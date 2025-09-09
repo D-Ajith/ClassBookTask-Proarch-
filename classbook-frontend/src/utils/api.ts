@@ -44,7 +44,7 @@ const API_BASE_URL =
   import.meta.env.VITE_API_BASE_URL ||
   (import.meta.env.MODE === 'development'
     ? 'http://localhost:3001/api' // local backend
-    : 'https://classbooktask.onrender.com/api'); // Render backend
+    : 'https://classbooktask-proarch.onrender.com/api'); // Render backend
 
 console.log('🔗 Using API Base URL:', API_BASE_URL);
 
