@@ -2,22 +2,17 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
+      "src": "classbook-frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist",
-        "buildCommand": "npm run build",
-          "installCommand": "npm install --force"
+        "distDir": "classbook-frontend/dist"
       }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "classbook-frontend/index.html"
     }
-  ],
-  "env": {
-    "VITE_API_BASE_URL": "https://classbooktask.onrender.com/api"
-  }
+  ]
 }
