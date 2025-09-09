@@ -10,7 +10,6 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true
-    // REMOVE THIS LINE: "types": ["node","express"],
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]

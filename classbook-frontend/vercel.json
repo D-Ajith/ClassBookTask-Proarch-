@@ -2,9 +2,13 @@
   "version": 2,
   "builds": [
     {
-      "src": "vite.config.*",
+      "src": "package.json",
       "use": "@vercel/static-build",
-      "config": {}
+      "config": {
+        "distDir": "dist",
+        "buildCommand": "npm run build",
+          "installCommand": "npm install --force"
+      }
     }
   ],
   "routes": [
@@ -12,5 +16,8 @@
       "src": "/(.*)",
       "dest": "/index.html"
     }
-  ]
+  ],
+  "env": {
+    "VITE_API_BASE_URL": "https://classbooktask.onrender.com/api"
+  }
 }
