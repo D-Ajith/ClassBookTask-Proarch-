@@ -2,19 +2,19 @@
   "version": 2,
   "builds": [
     {
-      "src": "package.json",
+      "src": "classbook-frontend/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "dist",
-        "installCommand": "npm install", 
-        "buildCommand": "npm run vercel-build"  
+        "distDir": "classbook-frontend/dist",
+        "installCommand": "cd classbook-frontend && npm install",
+        "buildCommand": "cd classbook-frontend && npm run build"
       }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/index.html"
+      "dest": "classbook-frontend/index.html"
     }
   ]
 }
